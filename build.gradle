@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'com.github.alexthe668'
+version 'prerelease1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+apply plugin: 'java'
+jar {
+    manifest {
+        attributes 'Main-Class': 'modcompatchecker.Main'
+    }
+    from {
+        configurations.compileClasspath.filter{ it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
